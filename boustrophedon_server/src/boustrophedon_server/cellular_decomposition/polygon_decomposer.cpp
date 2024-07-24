@@ -6,28 +6,35 @@ using namespace bcd;
 void PolygonDecomposer::decompose(Polygon& polygon)
 {
   // first, find all the points in the polygon that could cause us to have to split it into multiple cells
+   // 首先，找到多边形中所有可能导致我们需要将其拆分为多个单元的点
   std::vector<Point> critical_points = getCriticalInflectionPoints(polygon);
 
   // sort those critical points for later use
+   // 对这些关键点进行排序，以便后续使用
   sortVertices(critical_points);
 
   // use those critical points and the polygon to create a collection of convex cells
+    // 使用这些关键点和多边形来创建一组凸单元
   createCells(critical_points, polygon);
 }
 
 std::vector<Polygon> PolygonDecomposer::getSubPolygons(const Point& position)
 {
   // get an iterator to the closest cell to position. This will be the root of our depth-first tree
+   // 获取最接近给定位置的单元的迭代器。 这将是我们深度优先树的根
   auto closest_cell = getClosestCell(position);
 
   // reset the visited state of all the cells, in case we've done this before
+    // 重置所有单元的访问状态，以防我们之前已经访问过
   for (Cell cell : cells_)
   {
     cell.visited = false;
   }
 
+ // 访问从最近单元开始的所有单元，并记录访问过的单元
   std::vector<Cell> visited_cells = visitCells(closest_cell);
 
+// 将访问过的单元转换为多边形
   std::vector<Polygon> polygons = toPolygons(visited_cells);
   return polygons;
 }
@@ -37,21 +44,29 @@ std::vector<Polygon> PolygonDecomposer::getSubPolygons(const Point& position)
  * @param polygon
  * @returns a list of vertices on the polygon that have greater than 180 degree interior angles.
  */
+
+/**
+ * 找到给定多边形中所有内部角度大于180度的顶点。
+ * @param polygon 给定的多边形
+ * @returns 在多边形上所有内部角度大于180度的顶点的列表
+ */
 std::vector<Point> PolygonDecomposer::getCriticalInflectionPoints(Polygon& polygon)
 {
   // ensure that the polygon is counter_clockwise oriented. Later functions require this.
+  // 确保多边形是逆时针方向的。 后续的函数需要这种方向
   if (polygon.is_clockwise_oriented())
   {
     polygon.reverse_orientation();
   }
 
-  std::vector<Point> critical_inflection_points;
-  Polygon::Vertex_const_circulator vertex = polygon.vertices_circulator();
+  std::vector<Point> critical_inflection_points; // 创建一个存储关键拐点的向量
+  Polygon::Vertex_const_circulator vertex = polygon.vertices_circulator();// 获取多边形顶点的循环迭代器
 
-  // loop through all vertices of the polygon
+  // loop through all vertices of the polygon // 遍历多边形的所有顶点
   do
   {
     // for each vertex, check its interior angle. If greater than 180 degrees, add it to the list
+     // 对每个顶点，检查其内部角度。如果大于180度，则将其添加到列表中
     double interior_angle = getInteriorAngleOfVertex(vertex);
     if (interior_angle > 180.0)
     {
@@ -61,7 +76,7 @@ std::vector<Point> PolygonDecomposer::getCriticalInflectionPoints(Polygon& polyg
     vertex++;
   } while (vertex != polygon.vertices_circulator());
 
-  // return the list
+  // return the list // 返回关键拐点的列表
   return critical_inflection_points;
 }
 

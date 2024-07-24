@@ -1,20 +1,51 @@
 <launch>
+    <!-- 启动 boustrophedon_server 节点，用于规划分条覆盖路径 -->
     <node pkg="boustrophedon_server" type="boustrophedon_planner_server" name="boustrophedon_server"  output="screen" >
+
+      <!-- 是否重复边界覆盖，默认为 false -->
         <param name="repeat_boundary" value="false"/>
+
+           <!-- 是否沿顺时针方向进行边界覆盖，默认为 true -->
         <param name="outline_clockwise" value="true"/>
+
+        <!-- 是否跳过边界覆盖，默认为 true -->
         <param name="skip_outlines" value="true"/>
+
+         <!-- 设置边界层的数量，默认为 0 -->
         <param name="outline_layer_count" value="0"/>
+
+         <!-- 设置条带的分离距离，单位为米，默认为 1.0 -->
         <param name="stripe_separation" value="1.0"/>
+
+          <!-- 设置中间点的分离距离，单位为米，默认为 0.0 -->
         <param name="intermediary_separation" value="0.0"/>
+
+         <!-- 设置条带的角度，单位为度，默认为 0.0 -->
         <param name="stripe_angle" value="0.0"/>
+
+          <!-- 是否启用条带角度方向，默认为 true -->
         <param name="enable_stripe_angle_orientation" value="true" />
+
+         <!-- 是否沿着边界行进，默认为 true -->
         <param name="travel_along_boundary" value="true" />
+
+          <!-- 是否允许点在边界外部，默认为 false -->
         <param name="allow_points_outside_boundary" value="false" />
+
+         <!-- 是否启用半Y转弯，注意：如果启用半Y转弯，必须有 outline_layer_count >= 1，默认为 false -->
         <!-- Note: if enabling half-y turns, must have an outline_layer_count >= 1 -->
         <param name="enable_half_y_turns" value="false" />
+
+         <!-- 设置每次转弯的点数，默认为 15 -->
         <param name="points_per_turn" value="15" />
+
+         <!-- 设置转弯开始的偏移量，单位为米，默认为 0.5 -->
         <param name="turn_start_offset" value="0.5" />
+
+         <!-- 是否发布多边形，默认为 true -->
         <param name="publish_polygons" value="true"/>
+
+          <!-- 是否发布路径点，默认为 true -->
         <param name="publish_path_points" value="true"/>
     </node>
 </launch>

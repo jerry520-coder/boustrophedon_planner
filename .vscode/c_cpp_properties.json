@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                // "/home/binghe/orbbec_code/fescue_x3m_orgin/src/install/**",
+                // "!${workspaceFolder}/install/**",
+                "/usr/include",
+                "/usr/local/include",
+                // "/home/binghe/dependency/nav2_humble/include",
+                // "/home/binghe/dependency/nav2_humble/local/include",
+                "/opt/ros/noetic/include/**"
+                // "/opt/ros/humble/include/**"
+                // "/home/binghe/dependency/nav2_humble/humble/include/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
